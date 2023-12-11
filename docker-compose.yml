@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   traefik:
-    image: traefik
+    image: traefik:latest
     container_name: traefik
     restart: unless-stopped
     command: --api.insecure=true --providers.docker 
@@ -30,7 +30,7 @@ services:
 #      - 8181:80
     labels:
       - "traefik.enable=true"
-#      - "traefik.http.routers.nginx.rule=Host('test.localhost')"
+      - "traefik.http.routers.nginx.rule=Host('test.localhost')"
       - "traefik.http.routers.nginx.entrypoints=web"
     networks:
       - net  
