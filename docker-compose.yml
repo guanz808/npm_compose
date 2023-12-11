@@ -4,6 +4,7 @@ services:
   traefik:
     image: traefik
     container_name: traefik
+    restart: unless-stopped
     command: --api.insecure=true --providers.docker 
      # Traefik will listen on port 8080 by default for API request.
      #- "--api.insecure=true" 
@@ -14,23 +15,23 @@ services:
      # Traefik will listen to incoming request on the port 80 (HTTP)
      #- "--entrypoints.web.address=:80"     
     ports:
-     - 80:80
-     - 8080:8080
+      - 80:80
+      - 8080:8080
     volumes:
-     - traefik:/traefik
-     - /var/run/docker.sock:/var/run/docker.sock
+      - traefik:/traefik
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
-     - net  
+      - net  
   
   inf:
     image: nginx
     container_name: infra-only
     ports:
-     - 8181:80
+      - 8181:80
     labels:
-#      - "traefik.enable=true"
-     - "traefik.http.routers.inf.rule=Host('test.localhost')"
-#      - "traefik.http.routers.inf.entrypoints=web"
+      - "traefik.enable=true"
+      - "traefik.http.routers.inf.rule=Host('test.localhost')"
+      - "traefik.http.routers.inf.entrypoints=web"
     networks:
       - net  
     depends_on:
