@@ -4,11 +4,11 @@ services:
   traefik:
     image: traefik
     container_name: traefik
-    command: 
+    command: --api.insecure=true --providers.docker 
      # Traefik will listen on port 8080 by default for API request.
-     - "--api.insecure=true" 
+     #- "--api.insecure=true" 
      # Enabling Docker provider
-     - "--providers.docker"
+     #- "--providers.docker"
      # Do not expose containers unless explicitly told so
      #- "--providers.docker.exposedbydefault=false"
      # Traefik will listen to incoming request on the port 80 (HTTP)
