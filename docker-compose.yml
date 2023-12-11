@@ -19,7 +19,8 @@ services:
       - 80:80
       - 8080:8080
     volumes:
-      - traefik:/traefik
+      - traefik:/traefik/jki.txt
+      - traefik:/config:/traefik/config
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - net  
