@@ -6,8 +6,12 @@ services:
     container_name: infra-only
     ports:
      - 8181:80
+    labels:
+      - "traefik.http.routers.infra-only.rule=host('infra-only.localhost')"
     networks:
-      - net
+      - net  
+    depends_on:
+     - traefix  
 
   traefik:
     image: traefik
