@@ -38,6 +38,19 @@ services:
     depends_on:
      - traefik
 
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"   
+    networks:
+      - net  
+    depends_on:
+     - traefik
+
+
 volumes:
   traefik:
     driver: local
@@ -55,3 +68,5 @@ networks:
       config:
       - subnet: 192.168.100.0/24
         gateway: 192.168.100.1
+
+        
