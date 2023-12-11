@@ -1,25 +1,14 @@
 version: '3.8'
 
 services:
-  inf:
-    image: nginx
-    container_name: infra-only
-    ports:
-     - 8181:80
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.inf.rule=Host(`inf.local`)"
-    networks:
-      - net  
-    depends_on:
-     - traefik
-
   traefik:
     image: traefik
     container_name: traefik
     command: 
      - "--api.insecure=true" 
      - "--providers.docker=true"
+     - "--providers.docker.exposedbydefault=false"
+     - "--entrypoints.web.address=:80"     
     ports:
      - 80:80
      - 8080:8080
@@ -28,6 +17,20 @@ services:
      - /var/run/docker.sock:/var/run/docker.sock
     networks:
      - net  
+  
+  inf:
+    image: nginx
+    container_name: infra-only
+    ports:
+     - 8181:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.inf.rule=Host('inf.local')"
+      - "traefik.http.routers.inf.entrypoints=web"
+    networks:
+      - net  
+    depends_on:
+     - traefik
 
 volumes:
   traefik:
