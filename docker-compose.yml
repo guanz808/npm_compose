@@ -27,10 +27,10 @@ services:
     container_name: infra-only
     ports:
      - 8181:80
-    labels:
+#    labels:
 #      - "traefik.enable=true"
      #- "traefik.http.routers.inf.rule=Host('inf.localhost')"
-     - "traefik.http.routers.inf.rule=Host('int.localhost')"
+     #- "traefik.http.routers.inf.rule=Host('int.localhost')"
 #      - "traefik.http.routers.inf.entrypoints=web"
     networks:
       - net  
