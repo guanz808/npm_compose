@@ -31,7 +31,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.infra-only.rule=Host('test.localhost')"
-      - "traefik.http.routers.inf-only.entrypoints=web"
+      - "traefik.http.routers.infra-only.entrypoints=web"
     networks:
       - net  
     depends_on:
