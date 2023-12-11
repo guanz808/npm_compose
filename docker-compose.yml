@@ -7,7 +7,7 @@ services:
     ports:
      - 8181:80
     labels:
-      - "traefik.http.routers.inf.rule=Host(`test.localhost`)"
+      - "traefik.http.routers.inf.rule=Host(`test.local`)"
     networks:
       - net  
     depends_on:
