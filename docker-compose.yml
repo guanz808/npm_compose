@@ -9,12 +9,13 @@ services:
 
   traefik:
     image: traefik
+    container_name: traefik
     command: --api.insecure=true --providers.docker
     ports:
      - 80:80
      - 8080:8080
     volumes:
-     - traefik:/var/run/docker.sock:/var.run/docker.sock
+     - traefik:/var/run/docker.sock
     networks:
      - net  
 
