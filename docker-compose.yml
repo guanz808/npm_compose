@@ -29,7 +29,7 @@ services:
      - 8181:80
     labels:
 #      - "traefik.enable=true"
-     - "traefik.http.routers.inf.rule=Host('inf.local')"
+     - "traefik.http.routers.inf.rule=Host('inf.localhost')"
 #      - "traefik.http.routers.inf.entrypoints=web"
     networks:
       - net  
