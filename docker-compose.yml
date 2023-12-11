@@ -11,7 +11,7 @@ services:
     networks:
       - net  
     depends_on:
-     - traefix  
+     - traefik
 
   traefik:
     image: traefik
