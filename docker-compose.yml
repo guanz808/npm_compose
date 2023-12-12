@@ -35,7 +35,7 @@ services:
       - 8181:80
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`nginx.localhost`)"
+      - "traefik.http.routers.nginx.rule=Host('nginx.localhost')"
       - "traefik.http.routers.nginx.entrypoints=web"  
     networks:
       - net  
