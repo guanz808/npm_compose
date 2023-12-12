@@ -19,7 +19,7 @@ services:
       - 80:80
       - 8080:8080
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock    
+      - /var/run/docker.sock:/var/run/docker.sock:ro    
       #- traefik_yaml:/etc/traefik/traefik.yaml:ro
       - traefikyaml:/etc/traefik
 #      - traefik_conf:/etc/traefik/conf/
@@ -31,8 +31,8 @@ services:
   nginx:
     image: nginx
     container_name: nginx
-#    ports:
-#      - 8181:80
+    ports:
+      - 8181:80
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx.rule=Host(`nginx.localhost`)"
