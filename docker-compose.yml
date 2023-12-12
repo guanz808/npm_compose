@@ -21,7 +21,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock    
       #- traefik_yaml:/etc/traefik/traefik.yaml:ro
-      - traefikyaml:/etc/traefik/
+      - traefikyaml:/etc/traefik/traefik.yaml:ro
 #      - traefik_conf:/etc/traefik/conf/
 #      - traefik_certs:/etc/traefik/certs/
 
@@ -48,7 +48,7 @@ volumes:
     driver_opts:
       type: nfs
       o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
-      device: ":/volume1/docker/traefik"  
+      device: ":/volume1/docker/traefik/traefik.yaml"  
 
 #  traefik_conf:
 #    driver: local
