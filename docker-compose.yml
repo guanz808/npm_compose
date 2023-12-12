@@ -19,6 +19,8 @@ services:
       - 80:80
       - 443:443
       - 8080:8080
+    environment:
+      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN      
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro    
       #- traefik_yaml:/etc/traefik/traefik.yaml:ro
@@ -37,7 +39,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx.rule=Host(`nginx.dajays.com`)"
-      - "traefik.http.routers.nginx.entrypoints=web"  
+      - "traefik.http.routers.nginx.entrypoints=websecure"  
     networks:
       - net  
     depends_on:
@@ -49,7 +51,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.dajays.com`)"
-      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
     networks:
       - net  
     depends_on:
