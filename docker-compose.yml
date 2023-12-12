@@ -41,6 +41,8 @@ services:
       - "traefik.http.routers.nginx.rule=Host(`nginx.dajays.com`)"
       - "traefik.http.routers.nginx.entrypoints=websecure"  
       - "traefik.http.routers.nginx.tls.certresolver=cloudflare"      
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro      
     networks:
       - net  
     depends_on:
@@ -53,6 +55,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.dajays.com`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro      
     networks:
       - net  
     depends_on:
