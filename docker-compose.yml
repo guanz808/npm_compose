@@ -16,9 +16,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro    
       - traefikyaml:/etc/traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=http"
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.traefik.entrypoints=http"
 #      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.dajays.com`)"
 #      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
 #      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
