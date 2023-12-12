@@ -34,6 +34,7 @@ services:
     container_name: nginx
     ports:
       - 8181:80
+      - 8082:443
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx.rule=Host(`nginx.hawaii.rr.com`)"
