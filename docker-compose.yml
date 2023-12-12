@@ -19,9 +19,9 @@ services:
       - traefikyaml:/etc/traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.entrypoints=https"
       - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.dajays.com`)"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
+#      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
@@ -43,8 +43,8 @@ services:
       - 8181:80
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.nginx.entrypoints=https"  
       - "traefik.http.routers.nginx.rule=Host(`nginx.dajays.com`)"
-      - "traefik.http.routers.nginx.entrypoints=websecure"  
       - "traefik.http.routers.nginx.tls.certresolver=cloudflare"  
       - "traefik.http.routers.nginx.tls=true"
       - "traefik.http.routers.nginx.tls.domains[0].main=dajays.com"          
@@ -61,7 +61,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.dajays.com`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.entrypoints=https"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro      
     networks:
