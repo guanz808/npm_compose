@@ -42,7 +42,7 @@ services:
     ports:
       - 8181:80   
     networks:
-      - net  
+      - frontend
 #############################################################################################
 
 volumes:
@@ -69,7 +69,7 @@ volumes:
 #############################################################################################
 networks:
 # Network for all Services (across Projects)
-  net:
+  frontend:
     driver: bridge
     ipam:
       driver: default
