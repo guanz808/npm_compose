@@ -40,7 +40,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx.rule=Host(`nginx.dajays.com`)"
       - "traefik.http.routers.nginx.entrypoints=websecure"  
-      - "traefik.http.routers.nginx.tls.certresolver=cloudflare"      
+      - "traefik.http.routers.nginx.tls.certresolver=cloudflare"  
+      - "traefik.http.routers.nginx.tls=true"
+      - "traefik.http.routers.nginx.tls.domains[0].main=dajays.com"          
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro      
     networks:
