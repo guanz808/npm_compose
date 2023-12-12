@@ -2,75 +2,49 @@ version: '3.8'
 
 services:
 #############################################################################################
-  traefik:
-    image: traefik:latest
-    container_name: traefik
-    restart: unless-stopped   
-    ports:
-      - 80:80
-      - 443:443
-      - 8080:8080
-    environment:
-      - CF_API_EMAIL=jiwanaga@hotmail.com
-      - CF_API_KEY=$CF_API_KEY      
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro    
-      - traefikyaml:/etc/traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=https"
-      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.dajays.com`)"
-#      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
-      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-      - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.dajays.com`)"
-      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
-      - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].main=dajays.com"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.dajays.com"
-      - "traefik.http.routers.traefik-secure.service=api@internal"      
-    networks:
-      - net  
+#  traefik:
+#    image: traefik:latest
+#    container_name: traefik
+#    restart: unless-stopped   
+#    ports:
+#      - 80:80
+#      - 443:443
+#      - 8080:8080
+#    environment:
+#      - CF_API_EMAIL=jiwanaga@hotmail.com
+#      - CF_API_KEY=$CF_API_KEY      
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /var/run/docker.sock:/var/run/docker.sock:ro    
+#      - traefikyaml:/etc/traefik
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.traefik.entrypoints=https"
+#      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.dajays.com`)"
+##      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
+#      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+#      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+#      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+#      - "traefik.http.routers.traefik-secure.entrypoints=https"
+#      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.dajays.com`)"
+#      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+#      - "traefik.http.routers.traefik-secure.tls=true"
+#      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
+#      - "traefik.http.routers.traefik-secure.tls.domains[0].main=dajays.com"
+#      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.dajays.com"
+#      - "traefik.http.routers.traefik-secure.service=api@internal"      
+#    networks:
+#      - net  
 #############################################################################################  
   nginx:
-    image: nginx
-    container_name: nginx
+    image: ubuntu
+    container_name: ubuntu
     ports:
-      - 8181:80
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nginx.entrypoints=https"  
-      - "traefik.http.routers.nginx.rule=Host(`nginx.dajays.com`)"
-      - "traefik.http.routers.nginx.tls.certresolver=cloudflare"  
-      - "traefik.http.routers.nginx.tls=true"
-      - "traefik.http.routers.nginx.tls.domains[0].main=dajays.com"  
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.dajays.com"
-      - "traefik.http.routers.traefik-secure.service=api@internal"               
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro      
+      - 8181:80   
     networks:
       - net  
-    depends_on:
-     - traefik
 #############################################################################################
-  whoami:
-    image: "traefik/whoami"
-    container_name: "simple-service"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.dajays.com`)"
-      - "traefik.http.routers.whoami.entrypoints=https"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro      
-    networks:
-      - net  
-    depends_on:
-     - traefik
-#############################################################################################
+
 volumes:
   traefikyaml:
     driver: local
