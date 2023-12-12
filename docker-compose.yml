@@ -5,23 +5,25 @@ services:
     image: traefik:latest
     container_name: traefik
     restart: unless-stopped
-    command:
-    #command: --api.insecure=true --providers.docker 
-     # Traefik will listen on port 8080 by default for API request.
-     - "--api.insecure=true" 
-     # Enabling Docker provider
-     - "--providers.docker"
-     # Do not expose containers unless explicitly told so
-     - "--providers.docker.exposedbydefault=false"
-     # Traefik will listen to incoming request on the port 80 (HTTP)
-     - "--entrypoints.web.address=:80"     
+#    command:
+#    #command: --api.insecure=true --providers.docker 
+#     # Traefik will listen on port 8080 by default for API request.
+#     - "--api.insecure=true" 
+#     # Enabling Docker provider
+#     - "--providers.docker"
+#     # Do not expose containers unless explicitly told so
+#     - "--providers.docker.exposedbydefault=false"
+#     # Traefik will listen to incoming request on the port 80 (HTTP)
+#     - "--entrypoints.web.address=:80"     
     ports:
       - 80:80
       - 8080:8080
     volumes:
-      - traefik:/mnt/jki.txt
-      - traefik:/config:/mnt/config
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock    
+      - traefik_yaml:/etc/traefik/traefik.yaml:ro
+      - traefik_conf:/etc/traefik/conf/
+      - traefik_certs:/etc/traefik/certs/
+
     networks:
       - net  
   
@@ -39,26 +41,27 @@ services:
     depends_on:
      - traefik
 
-  whoami:
-    image: "traefik/whoami"
-    container_name: "simple-service"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
-      - "traefik.http.routers.whoami.entrypoints=web"   
-    networks:
-      - net  
-    depends_on:
-     - traefik
-
-
 volumes:
-  traefik:
+  traefik_yaml:
     driver: local
     driver_opts:
       type: nfs
       o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
-      device: ":/volume1/docker/traefik"  
+      device: ":/volume1/docker/traefik/traefik.yaml"  
+
+  traefik_conf:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
+      device: ":/volume1/docker/traefik/conf"      
+
+  traefik_certs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
+      device: ":/volume1/docker/traefik/certs"  
 
 networks:
 # Network for all Services (across Projects)
