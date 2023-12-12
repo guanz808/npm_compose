@@ -50,7 +50,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.hawaii.rr.com`)"
       - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.routers.api.service=api@internal"
     networks:
       - net  
     depends_on:
