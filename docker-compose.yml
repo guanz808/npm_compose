@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+#############################################################################################
   traefik:
     image: traefik:latest
     container_name: traefik
@@ -16,25 +17,25 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro    
       - traefikyaml:/etc/traefik
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.traefik.entrypoints=http"
-#      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.dajays.com`)"
-#      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
-#      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-#      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-#      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-#      - "traefik.http.routers.traefik-secure.entrypoints=https"
-#      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.dajays.com`)"
-#      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
-#      - "traefik.http.routers.traefik-secure.tls=true"
-#      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-#      - "traefik.http.routers.traefik-secure.tls.domains[0].main=dajays.com"
-#      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.dajays.com"
-#      - "traefik.http.routers.traefik-secure.service=api@internal"      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.dajays.com`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      - "traefik.http.routers.traefik-secure.entrypoints=https"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.dajays.com`)"
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=dajays.com"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.dajays.com"
+      - "traefik.http.routers.traefik-secure.service=api@internal"      
     networks:
       - net  
-  
+#############################################################################################  
   nginx:
     image: nginx
     container_name: nginx
@@ -53,7 +54,7 @@ services:
       - net  
     depends_on:
      - traefik
-
+#############################################################################################
   whoami:
     image: "traefik/whoami"
     container_name: "simple-service"
@@ -67,7 +68,7 @@ services:
       - net  
     depends_on:
      - traefik
-
+#############################################################################################
 volumes:
   traefikyaml:
     driver: local
@@ -89,7 +90,7 @@ volumes:
 #      type: nfs
 #      o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
 #      device: ":/volume1/docker/traefik/certs"  
-
+#############################################################################################
 networks:
 # Network for all Services (across Projects)
   net:
