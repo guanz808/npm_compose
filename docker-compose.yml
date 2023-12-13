@@ -41,7 +41,6 @@ services:
     volumes:
       - npm_mysql:/var/lib/mysql
     networks:
-      - networkName
       - frontend 
 
   whoami:
