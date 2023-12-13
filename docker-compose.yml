@@ -1,72 +1,74 @@
 version: '3.8'
 
 services:
-#############################################################################################
-#  traefik:
-#    image: traefik:latest
-#    container_name: traefik
-#    restart: unless-stopped   
-#    ports:
-#      - 80:80
-#      - 443:443
-#      - 8080:8080
-#    environment:
-#      - CF_API_EMAIL=jiwanaga@hotmail.com
-#      - CF_API_KEY=$CF_API_KEY      
-#    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-#      - /var/run/docker.sock:/var/run/docker.sock:ro    
-#      - traefikyaml:/etc/traefik
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.traefik.entrypoints=https"
-#      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.dajays.com`)"
-##      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
-#      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-#      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-#      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-#      - "traefik.http.routers.traefik-secure.entrypoints=https"
-#      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.dajays.com`)"
-#      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
-#      - "traefik.http.routers.traefik-secure.tls=true"
-#      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-#      - "traefik.http.routers.traefik-secure.tls.domains[0].main=dajays.com"
-#      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.dajays.com"
-#      - "traefik.http.routers.traefik-secure.service=api@internal"      
-#    networks:
-#      - net  
-#############################################################################################  
-  nginx:
-    image: ubuntu
-    container_name: ubuntu
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    container_name: npm
     ports:
-      - 8181:80   
+      # These ports are in format <host-port>:<container-port>
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '8118:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+    environment:
+      # Mysql/Maria connection parameters:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
+      DB_MYSQL_NAME: "npm"
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+    volumes:
+      - npm_data:/data
+      - npm_letsencrypt:/etc/letsencrypt      
     networks:
-      - frontend
-#############################################################################################
+      - frontend  
+    depends_on:
+      - db
+
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: unless-stopped
+    container_name: npm_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
+    volumes:
+      - frontend 
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "whoami"
+    networks:
+      - frontend 
 
 volumes:
-  traefikyaml:
+  npm_data:
     driver: local
     driver_opts:
       type: nfs
       o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
-      device: ":/volume1/docker/traefik"  
+      device: ":/volume1/docker/nginxproxymanager/data"      
 
-#  traefik_conf:
-#    driver: local
-#    driver_opts:
-#      type: nfs
-#      o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
-#      device: ":/volume1/docker/traefik/conf"      
+  npm_letsencrypt:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
+      device: ":/volume1/docker/nginxproxymanager/letsencrypt"  
 
-#  traefik_certs:
-#    driver: local
-#    driver_opts:
-#      type: nfs
-#      o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
-#      device: ":/volume1/docker/traefik/certs"  
-#############################################################################################
+  npm_mysql:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
+      device: ":/volume1/docker/nginxproxymanager/mysql"  
+
 networks:
 # Network for all Services (across Projects)
   frontend:
