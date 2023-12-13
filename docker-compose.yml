@@ -43,12 +43,6 @@ services:
     networks:
       - frontend 
 
-#  whoami:
-#    image: "traefik/whoami"
-#    container_name: "whoami"
-#    networks:
-#      - frontend 
-
 volumes:
   npm_data:
     driver: local
