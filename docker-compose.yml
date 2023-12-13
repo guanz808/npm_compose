@@ -43,12 +43,6 @@ services:
     networks:
       - frontend 
 
-  nettool:
-    image: "nicolaka/netshoot" #"traefik/whoami"
-    container_name: "nettool"
-    networks:
-      - frontend 
-
 volumes:
   npm_data:
     driver: local
