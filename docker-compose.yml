@@ -39,7 +39,7 @@ services:
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
     volumes:
-      - npm_mysql::/var/lib/mysql
+      - npm_mysql:/var/lib/mysql
     networks:
       - networkName
       - frontend 
