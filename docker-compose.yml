@@ -44,8 +44,8 @@ services:
       - frontend 
 
   whoami:
-    image: "traefik/whoami"
-    container_name: "whoami"
+    image: "nicolaka/netshoot" #"traefik/whoami"
+    container_name: "nettool"
     networks:
       - frontend 
 
