@@ -49,21 +49,21 @@ volumes:
     driver_opts:
       type: nfs
       o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
-      device: ":/volume1/$NFS_SHARED_FOLDER/nginxproxymanager/data"      
+      device: ":/volume1/${NFS_SHARED_FOLDER}/nginxproxymanager/data"      
 
   npm_letsencrypt:
     driver: local
     driver_opts:
       type: nfs
       o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
-      device: ":/volume1/$NFS_SHARED_FOLDER/nginxproxymanager/letsencrypt"  
+      device: ":/volume1/${NFS_SHARED_FOLDER}/nginxproxymanager/letsencrypt"  
 
   npm_mysql:
     driver: local
     driver_opts:
       type: nfs
       o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
-      device: ":/volume1/$NFS_SHARED_FOLDER/nginxproxymanager/mysql"  
+      device: ":/volume1/${NFS_SHARED_FOLDER}/nginxproxymanager/mysql"  
 
 networks:
 # Network for all Services (across Projects)
