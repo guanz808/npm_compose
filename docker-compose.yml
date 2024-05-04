@@ -24,8 +24,8 @@ services:
     volumes:
       - npm_data:/data
       - npm_letsencrypt:/etc/letsencrypt      
-    networks:
-      - frontend  
+    #networks:
+    #  - frontend  
     depends_on:
       - db
 
@@ -40,8 +40,8 @@ services:
       MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
     volumes:
       - npm_mysql:/var/lib/mysql
-    networks:
-      - frontend 
+    #networks:
+    #  - frontend 
 
 volumes:
   npm_data:
@@ -65,14 +65,14 @@ volumes:
       o: "addr=192.168.1.11,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4"
       device: ":/volume1/${NFS_SHARED_FOLDER}/nginxproxymanager/mysql"  
 
-networks:
-# Network for all Services (across Projects)
-  frontend:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      - subnet: 192.168.100.0/24
-        gateway: 192.168.100.1
+#networks:
+## Network for all Services (across Projects)
+#  frontend:
+#    driver: bridge
+#    ipam:
+#      driver: default
+#      config:
+#      - subnet: 192.168.100.0/24
+#        gateway: 192.168.100.1
 
         
